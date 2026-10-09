@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuiz Interaktif RBT Tingkatan 1 - Bab 1 (40 Soalan)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            min-height: 100vh;
+        }
+        .font-fredoka {
+            font-family: 'Fredoka', cursive;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.125);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="text-gray-100 flex flex-col min-h-screen relative overflow-x-hidden">
+
+    <!-- Header -->
+    <header class="w-full glass-card sticky top-0 z-40 px-4 py-3 border-b border-slate-700/50">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center font-bold text-white shadow-lg text-xl">
+                    <i class="fa-solid fa-compass-drafting"></i>
+                </div>
+                <div>
+                    <h1 class="font-fredoka text-lg md:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300">RBT T1: BAB 1</h1>
+                    <p class="text-xs text-slate-400 hidden sm:block">Pengenalan kepada Reka Bentuk dan Teknologi</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="showLeaderboardScreen()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs md:text-sm font-semibold flex items-center gap-2 transition text-amber-400 cursor-pointer">
+                    <i class="fa-solid fa-trophy"></i>
+                    <span>Papan Kedudukan</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-5xl w-full mx-auto p-4 md:p-6 flex flex-col justify-center">
+
+        <!-- 1. HALAMAN UTAMA -->
+        <div id="screen-welcome" class="space-y-6">
+            <div class="glass-card rounded-3xl p-6 md:p-10 text-center relative overflow-hidden">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-4">
+                    <i class="fa-solid fa-graduation-cap"></i> Modul Pembelajaran RBT Tingkatan 1
+                </div>
+
+                <h1 class="text-3xl md:text-5xl font-extrabold font-fredoka text-white mb-3">
+                    Cabaran <span class="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-pink-400 to-indigo-400">40 Soalan Objektif</span>
+                </h1>
+                <p class="text-slate-300 max-w-2xl mx-auto text-sm md:text-base mb-8">
+                    Menguji kefahaman menyeluruh Bab 1: Definisi, Elemen, Prinsip, Peranan Reka Bentuk (Individu, Masyarakat, Negara), Invensi & Inovasi, Kriteria serta Etika.
+                </p>
+
+                <div class="max-w-md mx-auto bg-slate-900/80 p-6 rounded-2xl border border-slate-700 shadow-xl space-y-4">
+                    <label class="block text-left text-xs font-semibold uppercase tracking-wider text-slate-400">
+                        <i class="fa-solid fa-user-pen text-indigo-400 mr-1"></i> Masukkan Nama Pemain:
+                    </label>
+                    <input type="text" id="player-name-input" placeholder="Contoh: Aiman Firdaus" class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-600 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition">
+                    <p id="name-error" class="text-rose-400 text-xs text-left hidden"><i class="fa-solid fa-triangle-exclamation"></i> Sila masukkan nama anda sebelum bermula!</p>
+
+                    <button type="button" onclick="startQuiz()" class="w-full py-4 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:to-pink-600 font-bold text-white text-lg shadow-lg transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>MULA KUIZ SEKARANG</span>
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. HALAMAN KUIZ -->
+        <div id="screen-quiz" class="hidden space-y-4">
+            <div class="glass-card p-4 rounded-2xl flex flex-wrap justify-between items-center gap-3">
+                <div class="flex items-center gap-3">
+                    <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 rounded-lg text-xs font-bold">Soalan Objektif</span>
+                    <span class="text-sm font-semibold text-slate-200" id="quiz-progress-text">Soalan 1 / 40</span>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-1.5 text-xs font-mono bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700 text-amber-300">
+                        <i class="fa-regular fa-clock text-amber-400"></i>
+                        <span id="quiz-timer">00:00</span>
+                    </div>
+                    <div class="text-xs text-slate-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-user text-purple-400"></i>
+                        <span id="quiz-player-display" class="font-semibold text-slate-200">Pemain</span>
+                    </div>
+                </div>
+
+                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                    <div id="quiz-progress-bar" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 md:p-8 space-y-6 relative">
+                <div class="flex justify-between items-center text-xs">
+                    <span id="question-level-tag" class="px-2.5 py-1 rounded-md font-semibold bg-slate-700 text-slate-300">Aras: Sederhana</span>
+                    <span id="question-topic-tag" class="text-slate-400 font-medium">Topik: Elemen Reka Bentuk</span>
+                </div>
+
+                <div id="question-text" class="text-base md:text-lg font-semibold text-white leading-relaxed"></div>
+
+                <div id="question-options-container" class="space-y-3 pt-2"></div>
+
+                <div class="flex justify-between items-center pt-4 border-t border-slate-700/60">
+                    <button id="btn-prev" type="button" onclick="prevQuestion()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-sm font-semibold text-slate-300 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-chevron-left"></i> Sebelum
+                    </button>
+                    
+                    <button id="btn-next" type="button" onclick="nextQuestion()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-sm font-bold text-white shadow-lg transition flex items-center gap-2 cursor-pointer">
+                        <span>Seterusnya</span> <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+
+                    <button id="btn-submit-quiz" type="button" onclick="confirmSubmitQuiz()" class="hidden px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-sm font-bold text-white shadow-lg transition flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-paper-plane"></i> <span>HANTAR JAWAPAN</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. HALAMAN KEPUTUSAN -->
+        <div id="screen-result" class="hidden space-y-6">
+            <div class="glass-card rounded-3xl p-6 md:p-10 text-center space-y-6">
+                <h1 id="result-player-name" class="text-3xl md:text-4xl font-extrabold font-fredoka text-white">Nama Pemain</h1>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+                    <div class="bg-slate-900/90 border border-slate-700 p-5 rounded-2xl">
+                        <span class="text-xs text-slate-400 font-semibold uppercase">Markah</span>
+                        <div class="text-3xl font-extrabold text-amber-400 mt-1 font-fredoka" id="result-score-text">0 / 40</div>
+                    </div>
+                    <div class="bg-slate-900/90 border border-slate-700 p-5 rounded-2xl">
+                        <span class="text-xs text-slate-400 font-semibold uppercase">Peratusan</span>
+                        <div class="text-3xl font-extrabold text-indigo-400 mt-1 font-fredoka" id="result-percentage-text">0%</div>
+                    </div>
+                    <div class="bg-slate-900/90 border border-slate-700 p-5 rounded-2xl">
+                        <span class="text-xs text-slate-400 font-semibold uppercase">Masa Diambil</span>
+                        <div class="text-2xl font-bold text-emerald-400 mt-1 font-mono" id="result-time-text">00:00</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-4 pt-4">
+                    <button type="button" onclick="showLeaderboardScreen()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 font-bold text-slate-950 transition flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-trophy"></i> <span>PAPAN KEDUDUKAN</span>
+                    </button>
+                    <button type="button" onclick="reviewAnswers()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 font-semibold transition flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-magnifying-glass"></i> <span>SEMAK JAWAPAN</span>
+                    </button>
+                    <button type="button" onclick="restartQuiz()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-indigo-300 font-semibold transition flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-rotate-right"></i> <span>CUBA LAGI</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. HALAMAN PAPAN KEDUDUKAN -->
+        <div id="screen-leaderboard" class="hidden space-y-6">
+            <div class="glass-card rounded-3xl p-6 md:p-8 space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-700/60 pb-4">
+                    <h2 class="text-2xl font-extrabold font-fredoka text-white flex items-center gap-2">
+                        <i class="fa-solid fa-trophy text-amber-400"></i> PAPAN KEDUDUKAN
+                    </h2>
+                    <button type="button" onclick="goHome()" class="px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-bold cursor-pointer">
+                        <i class="fa-solid fa-house mr-1"></i> UTAMA
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto rounded-2xl border border-slate-700 bg-slate-900/70">
+                    <table class="w-full text-left text-xs md:text-sm text-slate-300">
+                        <thead class="bg-slate-800 text-slate-400 uppercase text-[11px]">
+                            <tr>
+                                <th class="py-3 px-4 text-center">#</th>
+                                <th class="py-3 px-4">Nama Pemain</th>
+                                <th class="py-3 px-4 text-center">Markah</th>
+                                <th class="py-3 px-4 text-center">Peratus</th>
+                                <th class="py-3 px-4 text-center">Masa</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-table-body" class="divide-y divide-slate-800"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. HALAMAN SEMAK JAWAPAN -->
+        <div id="screen-review" class="hidden space-y-6">
+            <div class="glass-card rounded-3xl p-6 md:p-8 space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-700/60 pb-4">
+                    <h2 class="text-2xl font-bold font-fredoka text-white">Semakan Jawapan Terperinci</h2>
+                    <button type="button" onclick="showResultScreen()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold text-slate-200 cursor-pointer">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> Kembali
+                    </button>
+                </div>
+
+                <div id="review-questions-list" class="space-y-4 max-h-[65vh] overflow-y-auto pr-2 custom-scrollbar"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        /* ------------------------------------------------------------------
+           DATA LENGKAP 40 SOALAN OBJEKTIF BAB 1 RBT TINGKATAN 1
+        ------------------------------------------------------------------ */
+        const quizData = [
+            // Definisi (1-3)
+            { id: 1, level: 'Mudah', topic: 'Definisi Reka Bentuk', question: 'Apakah maksud "Reka Bentuk"?', options: ['A. Penggunaan pengetahuan sains untuk membaiki alatan', 'B. Penyusunan bahan secara terancang untuk menghasilkan produk yang memberi impak', 'C. Kaedah menjual alatan elektrik secara pukal', 'D. Lukisan seni tanpa kegunaan fizikal'], answer: 1, explanation: 'Reka bentuk ialah penyusunan bahan secara terancang untuk menghasilkan produk berimpak.' },
+            { id: 2, level: 'Mudah', topic: 'Definisi Teknologi', question: 'Apakah maksud "Teknologi"?', options: ['A. Pengaplikasian pengetahuan sains dan matematik untuk memudahkan kehidupan manusia', 'B. Penghasilan perhiasan rumah yang menarik', 'C. Kaedah melukis pelan secara manual', 'D. Proses menyimpan bahan mentah di kilang'], answer: 0, explanation: 'Teknologi ialah aplikasi sains dan matematik bagi memudahkan kehidupan.' },
+            { id: 3, level: 'Mudah', topic: 'Definisi RBT', question: 'Reka Bentuk dan Teknologi (RBT) merujuk kepada:', options: ['A. Gabungan seni lukis dan perniagaan dalam talian', 'B. Gabungan pengetahuan tentang penyusunan bahan secara terancang dengan aplikasi ilmu sains dan matematik', 'C. Pembuatan kraftangan secara tradisional', 'D. Pengubahsuaian barang-barang terpakai semata-mata'], answer: 1, explanation: 'RBT menggabungkan penyusunan bahan terancang dengan aplikasi sains dan matematik.' },
+
+            // Elemen Reka Bentuk (4-11)
+            { id: 4, level: 'Mudah', topic: 'Elemen Reka Bentuk', question: 'Antara berikut, yang manakah merupakan ELEMEN reka bentuk?', options: ['A. Keseimbangan', 'B. Pengulangan', 'C. Garisan', 'D. Harmoni'], answer: 2, explanation: 'Garisan ialah elemen, manakala pilihan lain ialah prinsip.' },
+            { id: 5, level: 'Sederhana', topic: 'Elemen - Garisan', question: 'Garisan tegak/menegak pada sesuatu reka bentuk memberikan kesan:', options: ['A. Ketenangan dan kedamaian', 'B. Kestabilan, keteguhan dan ketinggian', 'C. Pergerakan berterusan', 'D. Kelembutan dan keharmonisan'], answer: 1, explanation: 'Garisan menegak menunjukkan kestabilan dan ketinggian.' },
+            { id: 6, level: 'Sederhana', topic: 'Elemen - Rupa', question: 'Antara berikut, yang manakah contoh Rupa Geometri?', options: ['A. Rupa daun dan bunga', 'B. Rupa haiwan', 'C. Rupa bulatan, segi tiga dan segi empat', 'D. Rupa titisan air'], answer: 2, explanation: 'Rupa geometri mempunyai sudut dan sempadan bersukat tepat.' },
+            { id: 7, level: 'Mudah', topic: 'Elemen - Bentuk', question: 'Apakah ciri utama yang membezakan BENTUK berbanding RUPA?', options: ['A. Bentuk bersifat 2 Dimensi (2D) sahaja', 'B. Bentuk mempunyai isi padu, jisim dan bersifat 3 Dimensi (3D)', 'C. Bentuk tidak mempunyai saiz', 'D. Bentuk hanya terdapat pada permukaan rata'], answer: 1, explanation: 'Bentuk mempunyai struktur 3D dengan isi padu dan ruang.' },
+            { id: 8, level: 'Sederhana', topic: 'Elemen - Tekstur', question: 'Tekstur jalinan yang hanya dapat dilihat tetapi tidak dapat dirasa secara fizikal dipanggil:', options: ['A. Tekstur Sentuh', 'B. Tekstur Tampak', 'C. Tekstur Geometri', 'D. Tekstur Fizikal'], answer: 1, explanation: 'Tekstur tampak memberikan kesan visual sahaja.' },
+            { id: 9, level: 'Sederhana', topic: 'Elemen - Warna', question: 'Warna Merah, Kuning dan Jingga dikategorikan dalam kumpulan:', options: ['A. Warna Sejuk', 'B. Warna Neutral', 'C. Warna Panas', 'D. Warna Sekunder'], answer: 2, explanation: 'Warna panas menimbulkan suasana ceria, bertenaga dan hangat.' },
+            { id: 10, level: 'Mencabar', topic: 'Elemen - Ruang', question: 'Kawasan kosong di sekeliling atau di dalam sesuatu objek reka bentuk dikenali sebagai:', options: ['A. Ruang', 'B. Nilai', 'C. Saiz', 'D. Bentuk'], answer: 0, explanation: 'Ruang ialah kawasan kosong sekeliling atau persekitaran objek.' },
+            { id: 11, level: 'Sederhana', topic: 'Elemen - Nilai', question: 'Kesan terang atau gelap sesuatu warna atau nada objek merujuk kepada elemen:', options: ['A. Nilai', 'B. Saiz', 'C. Tekstur', 'D. Garisan'], answer: 0, explanation: 'Nilai menunjukkan impak pencahayaan terang atau gelap.' },
+
+            // Prinsip Reka Bentuk (12-18)
+            { id: 12, level: 'Mudah', topic: 'Prinsip Reka Bentuk', question: 'Antara berikut, yang manakah BUKAN prinsip reka bentuk?', options: ['A. Keseimbangan', 'B. Kontras', 'C. Warna', 'D. Pengulangan'], answer: 2, explanation: 'Warna ialah ELEMEN reka bentuk.' },
+            { id: 13, level: 'Sederhana', topic: 'Prinsip - Keseimbangan', question: 'Keseimbangan Simetri merujuk kepada:', options: ['A. Susunan yang berbeza pada kiri dan kanan tetapi berat visual seimbang', 'B. Susunan yang sama di kedua-dua belah bahagian kiri dan kanan paksi', 'C. Susunan warna yang terang di sebelah pihak', 'D. Pengulangan motif tanpa corak'], answer: 1, explanation: 'Simetri mempunyai persamaan bentuk dan saiz di kedua-dua belah.' },
+            { id: 14, level: 'Sederhana', topic: 'Prinsip - Kontras', question: 'Prinsip Kontras boleh dihasilkan menggunakan perbezaan:', options: ['A. Warna terang dan warna gelap', 'B. Saiz yang sama sahaja', 'C. Tekstur yang serupa', 'D. Garisan selari'], answer: 0, explanation: 'Kontras terhasil melalui perbezaan ketara seperti warna terang vs gelap.' },
+            { id: 15, level: 'Sederhana', topic: 'Prinsip - Pengulangan', question: 'Susunan elemen yang sama secara berulang-ulang akan menghasilkan prinsip:', options: ['A. Keringanan', 'B. Pengulangan', 'C. Kontras', 'D. Keseimbangan'], answer: 1, explanation: 'Pengulangan melibatkan pola elemen secara bersiri.' },
+            { id: 16, level: 'Mencabar', topic: 'Prinsip - Harmoni', question: 'Prinsip Harmoni dalam produk reka bentuk dapat mewujudkan:', options: ['A. Perasaan ketiadaan arah', 'B. Ketenteraman, keselarasan dan keselesaan pandangan visual', 'C. Kesan kejutan dan kekeliruan', 'D. Kehilangan daya fokus'], answer: 1, explanation: 'Harmoni menyelaraskan elemen supaya selesa dipandang.' },
+            { id: 17, level: 'Mencabar', topic: 'Prinsip - Penekanan', question: 'Menggunakan elemen yang menonjol untuk menarik perhatian utama pemerhati merujuk kepada prinsip:', options: ['A. Penekanan (Emphasis)', 'B. Keringanan', 'C. Harmoni', 'D. Pengulangan'], answer: 0, explanation: 'Penekanan menjadi tumpuan atau titik fokus utama.' },
+            { id: 18, level: 'Sederhana', topic: 'Prinsip - Keringanan', question: 'Prinsip Keringanan (Simplifikasi) bermaksud:', options: ['A. Menggunakan bahan berharga murah', 'B. Merekabentuk dengan membuang elemen tidak perlu supaya kemas', 'C. Mengecilkan saiz produk semata-mata', 'D. Mengurangkan kualiti produk'], answer: 1, explanation: 'Simplifikasi membuang elemen sarat yang tidak perlu.' },
+
+            // Peranan Reka Bentuk (19-25)
+            { id: 19, level: 'Mudah', topic: 'Peranan Reka Bentuk - Individu', question: 'Antara berikut, yang manakah peranan reka bentuk kepada INDIVIDU?', options: ['A. Memupuk sikap kreatif dan memudah cara urusan harian', 'B. Melindung hak cipta kilang sahaja', 'C. Menjana pendapatan bagi kerajaan', 'D. Mengekalkan warisan purba'], answer: 0, explanation: 'Kepada individu, reka bentuk memudahkan urusan dan memupuk kreativiti.' },
+            { id: 20, level: 'Sederhana', topic: 'Peranan Reka Bentuk - Individu', question: 'Reka bentuk yang memberikan keselesaan fizikal kepada pengguna merujuk peranan individu dari aspek:', options: ['A. Keselesaan dan kecekapan pengguna', 'B. Pemasaran produk', 'C. Menambah cukai', 'D. Pembuatan massal'], answer: 0, explanation: 'Memenuhi keperluan fizikal dan keselesaan individu.' },
+            { id: 21, level: 'Mudah', topic: 'Peranan Reka Bentuk - Masyarakat', question: 'Bagaimanakah reka bentuk berperanan kepada MASYARAKAT?', options: ['A. Mengurangkan persaingan perniagaan', 'B. Meningkatkan kualiti hidup dan mewujudkan masyarakat berbudaya kreatif', 'C. Menyebabkan ketidakstabilan ekonomi', 'D. Mengurangkan penggunaan alatan moden'], answer: 1, explanation: 'Kepada masyarakat, ia meningkatkan kualiti hidup dan kemudahan sosial.' },
+            { id: 22, level: 'Sederhana', topic: 'Peranan Reka Bentuk - Masyarakat', question: 'Penyediaan kemudahan awam seperti laluan kerusi roda merupakan peranan reka bentuk kepada masyarakat dari aspek:', options: ['A. Keperluan peribadi', 'B. Keharmonian dan keprihatinan sosial', 'C. Keuntungan perniagaan', 'D. Eksport barang'], answer: 1, explanation: 'Reka bentuk inklusif menyumbang kepada keprihatinan masyarakat.' },
+            { id: 23, level: 'Mudah', topic: 'Peranan Reka Bentuk - Negara', question: 'Antara berikut, yang manakah peranan reka bentuk kepada PENGELUAR DAN NEGARA?', options: ['A. Membuka peluang pekerjaan dan memajukan industri tempatan', 'B. Menghadkan import alatan moden', 'C. Mengurangkan pendapatan eksport', 'D. Menjadikan produk kekal tradisional tanpa perubahan'], answer: 0, explanation: 'Reka bentuk memajukan ekonomi, industri dan pekerjaan negara.' },
+            { id: 24, level: 'Sederhana', topic: 'Peranan Reka Bentuk - Negara', question: 'Produk reka bentuk tempatan yang berdaya saing di peringkat antarabangsa akan:', options: ['A. Menjejaskan nama negara', 'B. Menyumbang kepada pendapatan eksport negara', 'C. Mengurangkan kadar pelaburan', 'D. Menimbulkan perselisihan diplomatik'], answer: 1, explanation: 'Produk inovatif meningkatkan pendapatan eksport dan imej negara.' },
+            { id: 25, level: 'Mencabar', topic: 'Peranan Reka Bentuk', question: 'Penggunaan bahan mesra alam dan kitar semula dalam reka bentuk menyumbang peranan dari aspek:', options: ['A. Kelestarian dan pemeliharaan alam sekitar', 'B. Peningkatan harga jualan', 'C. Pengurangan tenaga kerja', 'D. Monopoli pasaran'], answer: 0, explanation: 'Penggunaan bahan mesra alam menjaga kelestarian alam.' },
+
+            // Invensi & Inovasi (26-32)
+            { id: 26, level: 'Mudah', topic: 'Definisi Invensi', question: 'Apakah maksud "INVENSI"?', options: ['A. Pengubahsuaian produk sedia ada', 'B. Penemuan produk atau kaedah BAHARU yang belum pernah wujud sebelum ini', 'C. Peniruan produk dari luar negara', 'D. Proses menjual alatan di pasaran'], answer: 1, explanation: 'Invensi ialah penemuan terbaharu yang belum wujud sebelum ini.' },
+            { id: 27, level: 'Mudah', topic: 'Definisi Inovasi', question: 'Apakah maksud "INOVASI"?', options: ['A. Pengubahsuaian atau penambahbaikan terhadap produk sedia ada supaya lebih efisien', 'B. Ciptaan sesuatu yang baharu sepenuhnya', 'C. Pembelian alatan secara pukal', 'D. Penulisan pelan perniagaan'], answer: 0, explanation: 'Inovasi ialah penambahbaikan atau pengubahsuaian produk sedia ada.' },
+            { id: 28, level: 'Sederhana', topic: 'Invensi vs Inovasi', question: 'Ciptaan mesin cetak pertama ialah contoh ________, manakala pencetak 3D hari ini ialah contoh ________.', options: ['A. Inovasi ; Invensi', 'B. Invensi ; Inovasi', 'C. Duplikasi ; Asimilasi', 'D. Inovasi ; Duplikasi'], answer: 1, explanation: 'Mesin cetak pertama = Invensi; Pencetak 3D = Inovasi.' },
+            { id: 29, level: 'Sederhana', topic: 'Aplikasi Inovasi', question: 'Penciptaan telefon pintar skrin sentuh yang menggantikan telefon bimbit berbutang ialah contoh aplikasi:', options: ['A. Inovasi', 'B. Invensi', 'C. Peniruan', 'D. Pemuliharaan'], answer: 0, explanation: 'Evolusi telefon bimbit ialah proses inovasi.' },
+            { id: 30, level: 'Mencabar', topic: 'Kepentingan Invensi & Inovasi', question: 'Mengapakah invensi dan inovasi penting dalam perkembangan teknologi hari ini?', options: ['A. Supaya barangan menjadi semakin mahal', 'B. Untuk memenuhi keperluan dan kehendak manusia yang sentiasa berubah', 'C. Supaya alatan lama tidak boleh digunakan terus', 'D. Mengurangkan persaingan industri'], answer: 1, explanation: 'Invensi dan inovasi memenuhi keperluan kehidupan yang berkembang.' },
+            { id: 31, level: 'Sederhana', topic: 'Invensi & Inovasi', question: 'Sesuatu produk invensi yang telah dipatenkan tidak boleh ditiru tanpa kebenaran kerana mempunyai hak:', options: ['A. Harta Intelek', 'B. Sewa Beli', 'C. Percuma', 'D. Dagangan Bebas'], answer: 0, explanation: 'Invensi dilindungi di bawah undang-undang Harta Intelek.' },
+            { id: 32, level: 'Sederhana', topic: 'Aplikasi Invensi', question: 'Penemuan ubat penisilin atau vaksin pertama dalam bidang kesihatan merupakan contoh:', options: ['A. Invensi', 'B. Inovasi', 'C. Pengubahsuaian', 'D. Duplikasi'], answer: 0, explanation: 'Penemuan terawal dalam sains/kesihatan ialah invensi.' },
+
+            // Kriteria, Etika & Kerjaya (33-40)
+            { id: 33, level: 'Mudah', topic: 'Kriteria Reka Bentuk Baik', question: 'Kriteria "ERGONOMIK" dalam reka bentuk produk bermaksud:', options: ['A. Produk mempunyai warna yang paling mengancam', 'B. Produk reka bentuk yang memberikan keselesaan dan kesesuaian fizikal kepada pengguna', 'C. Produk dijual dengan harga paling murah', 'D. Produk diperbuat daripada besi sahaja'], answer: 1, explanation: 'Ergonomik mengutamakan keselesaan dan keselamatan penggunaan.' },
+            { id: 34, level: 'Sederhana', topic: 'Kriteria Reka Bentuk Baik', question: 'Kriteria "ESTETIKA" merujuk kepada:', options: ['A. Ketahanan produk', 'B. Nilai keindahan dan seni pada produk', 'C. Kos pembuatan produk', 'D. Saiz pembungkusan'], answer: 1, explanation: 'Estetika merangkumi daya tarikan keindahan visual.' },
+            { id: 35, level: 'Mudah', topic: 'Etika Reka Bentuk', question: 'Pereka bentuk dilarang meniru karya pereka lain secara haram. Etika ini elak daripada amalan:', options: ['A. Plagiarisme', 'B. Ergonomik', 'C. Inovasi', 'D. Simplifikasi'], answer: 0, explanation: 'Plagiarisme ialah tindakan mencuri karya/idea orang lain.' },
+            { id: 36, level: 'Sederhana', topic: 'Etika Reka Bentuk', question: 'Memastikan produk yang direka tidak membahayakan kesihatan pengguna mematuhi etika:', options: ['A. Selamat digunakan', 'B. Kejujuran', 'C. Mesra pengguna', 'D. Keaslian'], answer: 0, explanation: 'Produk mesti dijamin selamat dari sebarang bahaya.' },
+            { id: 37, level: 'Mudah', topic: 'Kerjaya RBT', question: 'Individu yang merancang dan mereka bentuk pelan pelbagai jenis bangunan dikenali sebagai:', options: ['A. Pereka Fesyen', 'B. Arkitek', 'C. Pereka Grafik', 'D. Jurutera Elektrik'], answer: 1, explanation: 'Arkitek mereka bentuk pelan dan binaan bangunan.' },
+            { id: 38, level: 'Mudah', topic: 'Kerjaya RBT', question: 'Individu yang mereka bentuk papan iklan, logo, poster dan media penerbitan ialah:', options: ['A. Pereka Grafik', 'B. Pereka Pengajaran', 'C. Pereka Dalaman', 'D. Arkitek Landskap'], answer: 0, explanation: 'Pereka grafik pakar dalam komunikasi visual.' },
+            { id: 39, level: 'Sederhana', topic: 'Teknik Pembinaan Objek', question: 'Mencantumkan dua atau lebih bongkah geometri menggunakan bahan penyambung dipanggil teknik:', options: ['A. Penyatuan', 'B. Pembuangan', 'C. Peleraian', 'D. Pembenaman'], answer: 0, explanation: 'Penyatuan menggabungkan beberapa bahagian menjadi satu.' },
+            { id: 40, level: 'Mencabar', topic: 'Teknik Pembinaan Objek', question: 'Memotong atau mengorek sebahagian bongkah objek untuk membuang bahagian yang tidak diperlukan dinamakan teknik:', options: ['A. Pembuangan', 'B. Penyatuan', 'C. Pembenaman', 'D. Peleraian'], answer: 0, explanation: 'Teknik pembuangan memotong/mengeruk bahan dari objek asal.' }
+        ];
+
+        /* ------------------------------------------------------------------
+           LOGIK APLIKASI
+        ------------------------------------------------------------------ */
+        let currentPlayerName = "";
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let timeInSeconds = 0;
+        let timerInterval = null;
+
+        function startQuiz() {
+            const input = document.getElementById("player-name-input");
+            const name = input.value.trim();
+            const errEl = document.getElementById("name-error");
+
+            if (!name) {
+                errEl.classList.remove("hidden");
+                return;
+            }
+            errEl.classList.add("hidden");
+
+            currentPlayerName = name;
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            timeInSeconds = 0;
+
+            document.getElementById("quiz-player-display").innerText = currentPlayerName;
+
+            switchScreen("screen-quiz");
+            startTimer();
+            renderQuestion();
+        }
+
+        function switchScreen(screenId) {
+            ['screen-welcome', 'screen-quiz', 'screen-result', 'screen-leaderboard', 'screen-review'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.toggle("hidden", id !== screenId);
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goHome() {
+            stopTimer();
+            switchScreen("screen-welcome");
+        }
+
+        function startTimer() {
+            stopTimer();
+            timeInSeconds = 0;
+            timerInterval = setInterval(() => {
+                timeInSeconds++;
+                const mins = Math.floor(timeInSeconds / 60).toString().padStart(2, '0');
+                const secs = (timeInSeconds % 60).toString().padStart(2, '0');
+                document.getElementById("quiz-timer").innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        function renderQuestion() {
+            const q = quizData[currentQuestionIndex];
+            const total = quizData.length;
+
+            document.getElementById("quiz-progress-text").innerText = `Soalan ${currentQuestionIndex + 1} / ${total}`;
+            document.getElementById("question-level-tag").innerText = `Aras: ${q.level}`;
+            document.getElementById("question-topic-tag").innerText = `Topik: ${q.topic}`;
+            document.getElementById("question-text").innerText = `${q.id}. ${q.question}`;
+
+            const progressPercent = ((currentQuestionIndex + 1) / total) * 100;
+            document.getElementById("quiz-progress-bar").style.width = `${progressPercent}%`;
+
+            const optionsContainer = document.getElementById("question-options-container");
+            optionsContainer.innerHTML = "";
+
+            const selectedVal = userAnswers[q.id];
+
+            q.options.forEach((opt, idx) => {
+                const isSelected = selectedVal === idx;
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = `w-full text-left p-4 rounded-xl border transition flex items-center justify-between font-medium cursor-pointer ${
+                    isSelected 
+                        ? 'bg-indigo-600/40 border-indigo-500 text-white ring-2 ring-indigo-500/50' 
+                        : 'bg-slate-800/80 border-slate-700 hover:bg-slate-700/80 text-slate-200'
+                }`;
+                btn.onclick = () => {
+                    userAnswers[q.id] = idx;
+                    renderQuestion();
+                };
+                btn.innerHTML = `
+                    <span>${opt}</span>
+                    <div class="w-5 h-5 rounded-full border border-slate-500 flex items-center justify-center ${isSelected ? 'bg-indigo-500 border-indigo-400' : ''}">
+                        ${isSelected ? '<i class="fa-solid fa-check text-xs text-white"></i>' : ''}
+                    </div>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById("btn-prev").disabled = (currentQuestionIndex === 0);
+            document.getElementById("btn-next").classList.toggle("hidden", currentQuestionIndex === total - 1);
+            document.getElementById("btn-submit-quiz").classList.toggle("hidden", currentQuestionIndex !== total - 1);
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            }
+        }
+
+        function confirmSubmitQuiz() {
+            const unanswered = quizData.filter(q => userAnswers[q.id] === undefined);
+            if (unanswered.length > 0) {
+                if (!confirm(`Ada ${unanswered.length} soalan belum dijawab. Adakah anda pasti mahu menghantar?`)) {
+                    return;
+                }
+            } else {
+                if (!confirm("Hantar semua jawapan anda sekarang?")) return;
+            }
+            submitQuiz();
+        }
+
+        function submitQuiz() {
+            stopTimer();
+            let correct = 0;
+            quizData.forEach(q => {
+                if (userAnswers[q.id] === q.answer) correct++;
+            });
+
+            const scorePct = Math.round((correct / quizData.length) * 100);
+            const mins = Math.floor(timeInSeconds / 60).toString().padStart(2, '0');
+            const secs = (timeInSeconds % 60).toString().padStart(2, '0');
+            const timeStr = `${mins}:${secs}`;
+
+            document.getElementById("result-player-name").innerText = currentPlayerName;
+            document.getElementById("result-score-text").innerText = `${correct} / ${quizData.length}`;
+            document.getElementById("result-percentage-text").innerText = `${scorePct}%`;
+            document.getElementById("result-time-text").innerText = timeStr;
+            
+            saveScore({ name: currentPlayerName, score: correct, total: quizData.length, percentage: scorePct, time: timeInSeconds, timeFormatted: timeStr });
+            switchScreen("screen-result");
+        }
+
+        function showResultScreen() {
+            switchScreen("screen-result");
+        }
+
+        function saveScore(data) {
+            let scores = JSON.parse(localStorage.getItem("rbt_t1_scores_v3") || "[]");
+            scores.push(data);
+            scores.sort((a, b) => b.score - a.score || a.time - b.time);
+            localStorage.setItem("rbt_t1_scores_v3", JSON.stringify(scores));
+        }
+
+        function showLeaderboardScreen() {
+            switchScreen("screen-leaderboard");
+            const tbody = document.getElementById("leaderboard-table-body");
+            tbody.innerHTML = "";
+            let scores = JSON.parse(localStorage.getItem("rbt_t1_scores_v3") || "[]");
+            
+            if (scores.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400">Belum ada pemain yang selesai menjawab.</td></tr>`;
+                return;
+            }
+
+            scores.forEach((s, idx) => {
+                let rank = idx + 1;
+                let rankBadge = `#${rank}`;
+                if (rank === 1) rankBadge = '🥇 1';
+                else if (rank === 2) rankBadge = '🥈 2';
+                else if (rank === 3) rankBadge = '🥉 3';
+
+                const row = `<tr>
+                    <td class="py-3 px-4 text-center font-bold ${rank <= 3 ? 'text-amber-400' : 'text-slate-400'}">${rankBadge}</td>
+                    <td class="py-3 px-4 text-white font-semibold">${s.name}</td>
+                    <td class="py-3 px-4 text-center font-bold text-amber-400">${s.score}/${s.total}</td>
+                    <td class="py-3 px-4 text-center text-indigo-300 font-bold">${s.percentage}%</td>
+                    <td class="py-3 px-4 text-center font-mono text-xs text-slate-400">${s.timeFormatted}</td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function reviewAnswers() {
+            switchScreen("screen-review");
+            const container = document.getElementById("review-questions-list");
+            container.innerHTML = "";
+
+            quizData.forEach((q, idx) => {
+                const userAns = userAnswers[q.id];
+                const isCorrect = (userAns === q.answer);
+
+                const card = document.createElement("div");
+                card.className = `p-4 rounded-2xl border text-sm space-y-2 ${
+                    isCorrect ? 'bg-emerald-950/20 border-emerald-500/40' : 'bg-rose-950/20 border-rose-500/40'
+                }`;
+
+                const userAnsText = userAns !== undefined ? q.options[userAns] : "<i class='text-slate-500'>Tidak dijawab</i>";
+                const correctAnsText = q.options[q.answer];
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start gap-2">
+                        <span class="font-bold text-white">${idx + 1}. ${q.question}</span>
+                        <span class="px-2 py-0.5 rounded text-xs font-bold ${isCorrect ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'}">
+                            ${isCorrect ? '<i class="fa-solid fa-check"></i> Betul' : '<i class="fa-solid fa-xmark"></i> Salah'}
+                        </span>
+                    </div>
+
+                    <div class="text-xs space-y-1 pt-1">
+                        <div class="${isCorrect ? 'text-emerald-300' : 'text-rose-300'}">
+                            <strong>Jawapan Anda:</strong> ${userAnsText}
+                        </div>
+                        ${!isCorrect ? `<div class="text-emerald-400"><strong>Jawapan Betul:</strong> ${correctAnsText}</div>` : ''}
+                    </div>
+
+                    <div class="text-[11px] text-slate-400 bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80 mt-2">
+                        <i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i> <strong>Penjelasan:</strong> ${q.explanation}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function restartQuiz() {
+            startQuiz();
+        }
+    </script>
+</body>
+</html>
